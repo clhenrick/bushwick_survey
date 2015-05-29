@@ -8,7 +8,16 @@ var ExifImage = require('exif').ExifImage;
 var exifCount = 0;
 
 var imgDir = path.join(__dirname, '../all_photos/');
-var imgData = [];
+var imgData = {
+                "type" : "FeatureCollection",
+                "crs": {
+                  "type": "name",
+                  "properties": {
+                    "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+                    }
+                  }
+                "features" : []
+              };
 var errors = [];
 
 // converts lat lon from DMS to Decimal Degrees
@@ -22,25 +31,32 @@ function convertDMSToDD(degrees, minutes, seconds, direction) {
 }
 
 function parseExifData(exifObj, name) {
-  var data = {};
+  var data = {
+                "type" : "Feature",
+                "geometry" : {
+                  "type" : "Point",
+                  "coordinates" : []
+                }
+                "properties" : {}
+              };
   var d = exifObj;  
   var imgName = name.split('/')
-  data.file_name = imgName[imgName.length-1];
-  data.lat = convertDMSToDD(
+  data.properties.file_name = imgName[imgName.length-1];
+  data.coordinates[1] = convertDMSToDD(
                             d.gps.GPSLatitude[0],
                             d.gps.GPSLatitude[1],
                             d.gps.GPSLatitude[2],
                             d.gps.GPSLatitudeRef
                             );
-  data.lon = convertDMSToDD(
+  data.coordinates[0] = convertDMSToDD(
                             d.gps.GPSLongitude[0],
                             d.gps.GPSLongitude[1],
                             d.gps.GPSLongitude[2],
                             d.gps.GPSLongitudeRef
                             );
-  data.modify_date = d.image.ModifyDate;
+  data.properties.modify_date = d.image.ModifyDate;
   // console.log(data);
-  imgData.push(data);
+  imgData.features.push(data);
   exifCount ++;
   // console.log('the exif data obj count: ', exifCount);
 

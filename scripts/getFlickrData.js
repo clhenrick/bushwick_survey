@@ -81,7 +81,7 @@ function writeJson(data) {
 }
 
 function processGeoJson() {
-  var inputGeoJson = JSON.parse(fs.readFileSync('data/nwb_photos.geojson'));
+  var inputGeoJson = JSON.parse(fs.readFileSync('../data/nwb_photos.geojson'));
   var jsonOut = [];
   // var newGeoJson = GeoJson.parse(inputGeoJson.features, {Point: ['geometry.coordinates[1]', 'geometry.coordinates[0]'], include: ['Name'] });
   // console.log('input geojson: ', inputGeoJson);
