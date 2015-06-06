@@ -25,3 +25,23 @@ SELECT * FROM bushwick_survey_joined WHERE new_construction_or_building_rehab = 
 -- new buildings
 SELECT * FROM bushwick_survey_joined WHERE new_construction_or_building_rehab = 'Completely New Construction'
 
+-- create zoning style column
+ALTER TABLE bushwick_survey_joined ADD COLUMN zoning_style TEXT;
+
+-- set zoning_style to 'R' for residential 
+UPDATE bushwick_survey_joined SET zoning_style = 'R' WHERE zoning_pluto ilike 'R%' ;
+
+-- set zoning_style to 'C' for commericial
+UPDATE bushwick_survey_joined SET zoning_style = 'C' WHERE zoning_pluto ilike 'C%' and zoning_pluto not ilike '%R%';
+
+-- set zoning_style to 'RC' for residential & commericial
+UPDATE bushwick_survey_joined SET zoning_style = 'RC' WHERE zoning_pluto ilike 'C%R%';
+
+-- set zoning_style to 'M' for manufacturing
+UPDATE bushwick_survey_joined SET zoning_style = 'M' WHERE zoning_pluto ilike 'M%';
+
+-- set zoning_style to 'P' for parkland
+UPDATE bushwick_survey_joined SET zoning_style = 'P' WHERE zoning_pluto ilike 'P%';
+
+-- set zoning_style to 'null' for NULL values
+UPDATE bushwick_survey_joined SET zoning_style = 'null' WHERE zoning_pluto = '';

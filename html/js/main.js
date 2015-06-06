@@ -1,6 +1,6 @@
 var app = app || {};
 
-app = (function(w,d,$){
+app.main = (function(w,d,$){  
 
   // variables within 'app' scope
   var el = {
@@ -17,6 +17,7 @@ app = (function(w,d,$){
       opacity: 1,
       fillOpacity: 0.8          
     },
+    styles : null,
     // default css for tax lot sublayer
     surveyLotsCSS : "#bushwick_survey_joined{" +
       "polygon-fill: #A53ED5;" +
@@ -38,6 +39,8 @@ app = (function(w,d,$){
       // maxBounds : L.latLngBounds([40.675496,-73.957987],[40.714216,-73.877306]),       
       attributionControl: true
     };
+
+    el.styles = app.mapStyles;
     
     el.map = L.map('map', params);
 
@@ -91,7 +94,8 @@ app = (function(w,d,$){
       
       // survey tax lot data is 0, photo points layer is 1
       el.surveyLots = layer.getSubLayer(0);
-      el.surveyLots.setCartoCSS(el.surveyLotsCSS);
+      el.surveyLots.setSQL(app.sql.allLots);
+      el.surveyLots.setCartoCSS(app.mapStyles.zoning);
       
       layer.getSubLayer(1).hide();
       // el.photoPoints.setCartoCSS(el.photoPointsCSS);
@@ -101,7 +105,7 @@ app = (function(w,d,$){
     })
       .on('done', function(layer) {
         console.log('cdb all done');
-        loadPhotoData('photo_data_merge.geojson', el.dataLayer);
+        // loadPhotoData('photo_data_merge.geojson', el.dataLayer);
       })      
       .on('error', function(err) {
         console.log('error: ', err);        
@@ -111,23 +115,15 @@ app = (function(w,d,$){
   }
 
   // to get everything going
-  function init() {
-    initMap();    
+  function init() {    
+    initMap();
+    app.surveryLotsUI.init();
+    $('#allLots').addClass('selected');
   }
 
   return {
     el : el,
     init : init
   }   
-})(window, document, jQuery);
 
-// call app.map.init() once the DOM is loaded
-window.addEventListener('DOMContentLoaded', function(){
-  app .init();
-  $(function(){
-      $('img.survey-photo').load(function(){
-         var $img = $(this);
-         $img.attr('width', $img.width()).attr('height', $img.height());
-      });
-  });    
-});
+})(window, document, jQuery);

@@ -1,6 +1,5 @@
 categories:
 
-
 - building rehab (new_construction_or_building_rehab = ‘Building Rehabilitation’)
 - new construction (rehab new_construction_or_building_rehab = ‘Completely New Construction’)
 
@@ -12,3 +11,7 @@ categories:
 
 - lots entirely vacant
   - public or private vacant lots
+
+sample code from bushwick community map:
+- https://github.com/clhenrick/BushwickCommunityMap/blob/master/js/main.js#L262-L312
+- https://github.com/clhenrick/BushwickCommunityMap/blob/master/index.html#L34-L62

@@ -8,13 +8,55 @@
     <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css"/>
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>    
   </head>
-  <body>    
+  <body>
+    <div id="ui-container" class="ui">
+      <h4>Participatory Mapping Survey Data</h4>
+      <!-- <h4 class="es">Capas de Propiedad</h4> -->
+      <br/>
+      <a href="#allLots" id="allLots" class="button">
+        <span class="en">All Survey Lots</span>
+        <span class="es"></span>
+      </a>
+      <a href="#allVacant" id="allVacant" class="button">
+        <span class="en">Vacant Lots</span>
+        <span class="es"></span>
+      </a>
+      <a href="#allNotVacant" id="allNotVacant" class="button">
+        <span class="en">Non-vacant Lots</span>
+        <span class="es"></span>
+      </a>
+      <a href="#allInformalOcc" id="allInformalOcc" class="button">
+        <span class="en">Informal Occupancy</span>
+        <span class="es"></span>
+      </a>
+      <a href="#allConstruction" id="allConstruction" class="button">
+        <span class="en">All Construction</span>
+        <span class="es"></span>
+      </a>
+      <a href="#allRehab" id="allRehab" class="button">
+        <span class="en">Building Rehabs</span>
+        <span class="es"></span>
+      </a>
+      <a href="#allNewBuildings" id="allNewBuildings" class="button">
+        <span class="en">New Buildings</span>
+        <span class="es"></span>
+      </a>
+    </div>    
     <div id="map"></div>
 
     <!-- javascript libraries -->
     <script src="//libs.cartodb.com/cartodb.js/v3/3.14/cartodb.js"></script>
 
     <!-- main code -->
+    <script src="js/app.sql.js"></script>
+    <script src="js/app.mapstyles.js"></script>
+    <script src="js/app.surveylotsui.js"></script>
     <script src="js/main.js"></script>
+    <script type="text/javascript">
+      // call app.map.init() once the DOM is loaded
+      window.addEventListener('DOMContentLoaded', function(){
+        app.main.init();   
+      });    
+    </script>
   </body>
 </html>
