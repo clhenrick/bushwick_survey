@@ -1,3 +1,7 @@
+TO DO:
+- add legend for zoning style
+- add photo layer toggle
+
 categories:
 
 - building rehab (new_construction_or_building_rehab = ‘Building Rehabilitation’)
@@ -15,3 +19,4 @@ categories:
 sample code from bushwick community map:
 - https://github.com/clhenrick/BushwickCommunityMap/blob/master/js/main.js#L262-L312
 - https://github.com/clhenrick/BushwickCommunityMap/blob/master/index.html#L34-L62
+

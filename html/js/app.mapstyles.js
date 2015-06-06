@@ -24,8 +24,8 @@ app.mapStyles = (function(){
     zoning : "#bushwick_survey_joined {" +
                                      "polygon-opacity: 0.75;" +
                                      "line-color: #000;" +
-                                     "line-width: 0.2;" +
-                                     "line-opacity: 0.5;" +
+                                     "line-width: 1;" +
+                                     "line-opacity: 0.3;" +
                                   "}" +                                
                                   '#bushwick_survey_joined[zoning_style="R"] { polygon-fill: #A6CEE3;}' +
                                   '#bushwick_survey_joined[zoning_style="RC"] {polygon-fill: #1F78B4;}' +
