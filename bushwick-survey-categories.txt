@@ -1,0 +1,14 @@
+categories:
+
+
+- building rehab (new_construction_or_building_rehab = ‘Building Rehabilitation’)
+- new construction (rehab new_construction_or_building_rehab = ‘Completely New Construction’)
+
+- vacant buildings (entire_vacant=‘Yes’):
+  - commercial (entire_vacant=‘Yes’ and zoning_pluto ilike ‘
+  - residential
+  - mixed use / commercial & residential
+  - industrial
+
+- lots entirely vacant
+  - public or private vacant lots

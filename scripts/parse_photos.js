@@ -34,7 +34,7 @@ function parseExifData(exifObj, name) {
                 "type" : "Feature",
                 "geometry" : {
                   "type" : "Point",
-                  "coordinates" : []
+                  "coordinates" : [0,0]
                 },
                 "properties" : {}
               };
@@ -57,6 +57,8 @@ function parseExifData(exifObj, name) {
   imgData.features.push(data);
   exifCount ++;
 
+  console.log('parsed exif data ', data);
+
   if (exifCount === 1006) {
     imgData = JSON.stringify(imgData);
     errors = JSON.stringify(errors);
@@ -67,10 +69,14 @@ function parseExifData(exifObj, name) {
 function readImage(img) {
   try {
       new ExifImage({ image : img }, function (error, exifData) {
-          if (error)            
+          if (error) {
+            console.log('error: ', error.message);
             errors.push({name: img, err: error.message});
-          else
+          }            
+          else{
+            // console.log(exifData);
             parseExifData(exifData, img);
+          }
       });
   } catch (error) {      
       errors.push({name: img, err: error.message});
@@ -80,11 +86,12 @@ function readImage(img) {
 function readDataDir(path) {
   var files = fs.readdirSync(path);
   var count = 0;
-  files.forEach(function(file,i){
+  files.forEach(function(file,i) {    
     file = '../all_photos/' + file;
     readImage(file);
     count++
   });
 }
 
-readDataDir('../all_photos/');
+console.log('imgDir: ', imgDir);
+readDataDir(imgDir);

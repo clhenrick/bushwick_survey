@@ -5,24 +5,25 @@ app = (function(w,d,$){
   // variables within 'app' scope
   var el = {
     map : null,
-    mapboxTiles : null,
-    dataLayers : new L.FeatureGroup(),
+    cdbTileLayer: null,
     photoPoints : null,
+    dataLayer : new L.featureGroup(),
     surveyLots : null,
     markerOptions : {
-      radius: 5,
+      radius: 4,
       fillColor: "#ff7800",
       color: "#fff",
-      weight: 1,
+      weight: 0.5,
       opacity: 1,
       fillOpacity: 0.8          
     },
+    // default css for tax lot sublayer
     surveyLotsCSS : "#bushwick_survey_joined{" +
-      "polygon-fill: #081B47;" +
-      "polygon-opacity: 1;" +
-      "line-color: #fff;" +
+      "polygon-fill: #A53ED5;" +
+      "polygon-opacity: 0.3;" +
+      "line-color: #000;" +
       "line-width: 1;" +
-      "line-opacity: 1;" +
+      "line-opacity: 0.3;" +
     "}"
   }
 
@@ -34,21 +35,26 @@ app = (function(w,d,$){
       minZoom : 13,
       maxZoom : 20,
       zoom : 15,
-      maxBounds : L.latLngBounds([40.675496,-73.957987],[40.714216,-73.877306]),       
+      // maxBounds : L.latLngBounds([40.675496,-73.957987],[40.714216,-73.877306]),       
       attributionControl: true
     };
     
-    el.map = L.map('map', params);   
-    
-    // mapbox stuff
-    L.mapbox.accessToken = 'pk.eyJ1IjoiY2hlbnJpY2siLCJhIjoiLVhZMUZZZyJ9.HcNi26J3P-MiOmBKYHIbxw';
-    el.mapboxTiles = L.mapbox.tileLayer('chenrick.map-3gzk4pem');
-    el.map.addLayer(el.mapboxTiles);     
-    
-    el.dataLayers.addTo(el.map);
+    el.map = L.map('map', params);
 
-    loadData('photo_data_merge.geojson', el.dataLayers);
+    el.cdbTileLayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+    });
+     
+    el.map.addLayer(el.cdbTileLayer);
+    el.dataLayer.addTo(el.map);
     loadCdbData();
+
+    el.map.on('popupopen', function(e) {
+      $('img.survey-photo').load(function(){
+         var $img = $(this);
+         $img.attr('width', $img.width()).attr('height', $img.height());
+      });
+    });
   }
 
   // zoom to a feature for when user clicks on it
@@ -57,12 +63,14 @@ app = (function(w,d,$){
   }
 
   // load the geojson data, style it, add pop-ups
-  function loadData(file, layerToLoad) {
+  function loadPhotoData(file, layerToLoad) {
     $.getJSON('data/' + file, function(data) {
       console.log(data);
-      photoPoints = L.geoJson(data, {
+      el.photoPoints = L.geoJson(data, {
         onEachFeature : function(feature, layer) {
-          layer.bindPopup('<img class="survey-photo" src="' + feature.properties.url + '"/>');
+          if (feature.properties.url !== null) {
+            layer.bindPopup('<img class="survey-photo" src=' + feature.properties.url + '/>');
+          }
         },
         pointToLayer : function(feature, latlng) {
           return L.circleMarker(latlng, el.markerOptions);
@@ -72,26 +80,31 @@ app = (function(w,d,$){
   }
 
   function loadCdbData() {
-    var cdbUrl = "http://chenrick.cartodb.com/api/v2/viz/12fa33b2-a8a6-11e4-a75b-0e9d821ea90d/viz.json";   
-    cartodb.createLayer(el.map, cdbUrl, function(layer) {
-      // console.log('cdb sublayer 0: ', layer.getSubLayer(0), '\ncdb sublayer 1: ', layer.getSubLayer(1));
-      layer.setInteraction(true);          
-      // layer.getSubLayer(0).setSQL('SELECT * FROM bushwick_survey_joined');
-      layer.getSubLayer(0).setCartoCSS(el.surveyLotsCSS);
-      // layer.getSubLayer(0).show();
-      layer.getSubLayer(1).hide();
+    var cdbUrl = "https://chenrick.cartodb.com/api/v2_1/viz/12fa33b2-a8a6-11e4-a75b-0e9d821ea90d/viz.json";   
+    var options = {
+      cartodb_logo: false, 
+      legends: false,
+      https: true      
+    };
+    cartodb.createLayer(el.map, cdbUrl, options, function(layer) {
+      layer.setInteraction(true);
+      
+      // survey tax lot data is 0, photo points layer is 1
       el.surveyLots = layer.getSubLayer(0);
-      console.log('surveyLots: ', el.surveyLots);
+      el.surveyLots.setCartoCSS(el.surveyLotsCSS);
+      
+      layer.getSubLayer(1).hide();
+      // el.photoPoints.setCartoCSS(el.photoPointsCSS);
+      
       el.map.addLayer(layer, false);
-
-      el.mapboxTiles.bringToBack();                
+      el.cdbTileLayer.bringToBack();
     })
       .on('done', function(layer) {
-        console.log('cdb all done');        
+        console.log('cdb all done');
+        loadPhotoData('photo_data_merge.geojson', el.dataLayer);
       })      
       .on('error', function(err) {
-        console.log('error: ', err);
-        // surveyLots.bringToFront();        
+        console.log('error: ', err);        
       })
 
       // console.log('loadCdbData called');
@@ -110,5 +123,11 @@ app = (function(w,d,$){
 
 // call app.map.init() once the DOM is loaded
 window.addEventListener('DOMContentLoaded', function(){
-  app .init();  
+  app .init();
+  $(function(){
+      $('img.survey-photo').load(function(){
+         var $img = $(this);
+         $img.attr('width', $img.width()).attr('height', $img.height());
+      });
+  });    
 });
