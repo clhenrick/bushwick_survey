@@ -10,7 +10,7 @@ app.main = (function(w,d,$){
     dataLayer : new L.featureGroup(),
     surveyLots : null,
     markerOptions : {
-      radius: 4,
+      radius: 3,
       fillColor: "#ff7800",
       color: "#fff",
       weight: 0.5,
@@ -32,7 +32,7 @@ app.main = (function(w,d,$){
   // set up the map
   function initMap() {    
     var params = {
-      center : [40.694631,-73.925028],
+      center : [40.696909,-73.916702], //-73.916702,40.696909
       minZoom : 13,
       maxZoom : 20,
       zoom : 15,
@@ -105,7 +105,7 @@ app.main = (function(w,d,$){
     })
       .on('done', function(layer) {
         console.log('cdb all done');
-        // loadPhotoData('photo_data_merge.geojson', el.dataLayer);
+        loadPhotoData('photo_data_merge.geojson', el.dataLayer);
       })      
       .on('error', function(err) {
         console.log('error: ', err);        
