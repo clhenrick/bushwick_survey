@@ -35,7 +35,7 @@ function parseExifData(exifObj, name) {
                 "geometry" : {
                   "type" : "Point",
                   "coordinates" : []
-                }
+                },
                 "properties" : {}
               };
   var d = exifObj;  

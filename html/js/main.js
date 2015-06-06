@@ -47,7 +47,7 @@ app = (function(w,d,$){
     
     el.dataLayers.addTo(el.map);
 
-    loadData('flickrData.json', el.dataLayers);
+    loadData('photo_data_merge.geojson', el.dataLayers);
     loadCdbData();
   }
 
@@ -60,9 +60,9 @@ app = (function(w,d,$){
   function loadData(file, layerToLoad) {
     $.getJSON('data/' + file, function(data) {
       console.log(data);
-      photoPoints = L.geoJson(data.data, {
+      photoPoints = L.geoJson(data, {
         onEachFeature : function(feature, layer) {
-          layer.bindPopup('<img class="survey-photo" src=' + feature.properties.url + '/>');
+          layer.bindPopup('<img class="survey-photo" src="' + feature.properties.url + '"/>');
         },
         pointToLayer : function(feature, latlng) {
           return L.circleMarker(latlng, el.markerOptions);
