@@ -118,7 +118,9 @@ app.main = (function(w,d,$){
   function init() {    
     initMap();
     app.surveryLotsUI.init();
+    app.photos.initCheckBox();
     $('#allLots').addClass('selected');
+    $('input.photos').prop('checked', true);
   }
 
   return {

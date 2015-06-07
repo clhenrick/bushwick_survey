@@ -7,8 +7,8 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>    
   </head>
   <body>
-    <div id="ui-survey" class="ui survey">
-      <h4>Participatory Mapping Survey Data</h4>
+    <div id="ui-container" class="ui survey">
+      <h4>Surveyed Properties</h4>
       <!-- <h4 class="es">Capas de Propiedad</h4> -->
       <br/>
       <a href="#allLots" id="allLots" class="button">
@@ -39,8 +39,31 @@
         <span class="en">New Buildings</span>
         <span class="es"></span>
       </a>
+      <hr>
+      
+      <h4>Survey Photos</h4>
+      <br>
+      <input type="checkbox" name="photos" class="regular-checkbox photos" value="survey-photos" id="photos">
+        <label for="photos"></label><span>Display Photos</span>
+
     </div>    
     <div id="map"></div>
+
+    <!-- underscore template for dynamically rendering choropleth map legends -->
+    <script type="text/template" class="template">
+      <h4><%- legend.title %></h4>
+      <div class='legend-scale'>
+        <ul class='legend-labels'>
+          <% _.each( legend.items, function(item){ %>
+          <li><span style='background:<%-item.color %>;'></span><%-item.label%></li>
+          <% }); %>
+        </ul>
+      </div>
+      <div class='legend-source'>
+        Source: <a href="http://www.nyc.gov/html/dcp/html/bytes/dwn_pluto_mappluto.shtml">Map Pluto
+        </a>
+      </div>
+    </script>    
 
     <!-- javascript libraries -->
     <script src="//libs.cartodb.com/cartodb.js/v3/3.14/cartodb.js"></script>
@@ -49,6 +72,7 @@
     <script src="js/app.sql.js"></script>
     <script src="js/app.mapstyles.js"></script>
     <script src="js/app.surveylotsui.js"></script>
+    <script src="js/app.photos.js"></script>
     <script src="js/main.js"></script>
     <script type="text/javascript">
       // call app.map.init() once the DOM is loaded
