@@ -363,12 +363,12 @@ input{
 
 #ui-survey {
   position: absolute;
+  top: 25px;
+  right: 25px;  
   width: 200px;
   z-index: 60;
   font-family: Helvetica, sans-serif;
   padding: 12px;
-  bottom: 25px;
-  left: 25px;
 }
 
 .ui h4 {

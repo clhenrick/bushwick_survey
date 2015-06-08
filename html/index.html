@@ -7,7 +7,15 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>    
   </head>
   <body>
-    <div id="ui-container" class="ui survey">
+
+    <!-- buttons to toggle zoom -->
+<!--     <div id="ui-zoom" class="ui mini">
+      <a href="#" id="zoom-in"><img src="images/zoom-in.png"/></a><br/>
+      <a href="#" id="zoom-out"><img src="images/zoom-out.png"/></a>
+    </div>  --> 
+    
+    <!-- GUI -->
+    <div id="ui-survey" class="ui survey">
       <h4>Surveyed Properties</h4>
       <!-- <h4 class="es">Capas de Propiedad</h4> -->
       <br/>
@@ -46,7 +54,9 @@
       <input type="checkbox" name="photos" class="regular-checkbox photos" value="survey-photos" id="photos">
         <label for="photos"></label><span>Display Photos</span>
 
-    </div>    
+    </div>
+
+    <!-- map container -->
     <div id="map"></div>
 
     <!-- underscore template for dynamically rendering choropleth map legends -->
@@ -68,12 +78,14 @@
     <!-- javascript libraries -->
     <script src="//libs.cartodb.com/cartodb.js/v3/3.14/cartodb.js"></script>
 
-    <!-- main code -->
+    <!-- app modules -->
     <script src="js/app.sql.js"></script>
     <script src="js/app.mapstyles.js"></script>
     <script src="js/app.surveylotsui.js"></script>
     <script src="js/app.photos.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- js to load app -->
     <script type="text/javascript">
       // call app.map.init() once the DOM is loaded
       window.addEventListener('DOMContentLoaded', function(){
