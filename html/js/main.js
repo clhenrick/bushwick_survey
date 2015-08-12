@@ -83,7 +83,7 @@ app.main = (function(w,d,$){
   }
 
   function loadCdbData() {
-    var cdbUrl = "https://chenrick.cartodb.com/api/v2_1/viz/12fa33b2-a8a6-11e4-a75b-0e9d821ea90d/viz.json";   
+    var cdbUrl = "https://chenrick.cartodb.com/api/v2/viz/12fa33b2-a8a6-11e4-a75b-0e9d821ea90d/viz.json";   
     var options = {
       cartodb_logo: false, 
       legends: false,
